@@ -264,7 +264,8 @@ window.addEventListener("unhandledrejection", function(e){
   }
   .est-row.fixed .badge{color:var(--good);border-color:rgba(24,154,87,.45);background:rgba(24,154,87,.12)}
   .est-row .why{display:none;font-size:12px;color:var(--dim);margin-top:7px;line-height:1.65}
-  .est-row .editrow{display:none;margin-top:10px;gap:8px;align-items:center;flex-wrap:wrap;max-width:100%}
+  .est-row .editrow{display:none;margin-top:10px;gap:8px;align-items:center;flex-wrap:wrap;max-width:100%;overflow-x:hidden}
+  .est-row{overflow-x:hidden}
   .est-row .editrow input, .est-row .editrow select{max-width:100%}
   .est-row.editing{background:var(--card2)}
   .est-row.editing .editrow{display:flex}
@@ -282,7 +283,7 @@ window.addEventListener("unhandledrejection", function(e){
   .editrow input:focus{border-color:var(--amber-deep)}
   .mini{display:flex;align-items:center;gap:8px;flex:1 1 100%;margin-top:8px}
   .mini span{font-size:12px;color:var(--dim);flex:none;min-width:70px;white-space:nowrap}
-  .mini input{flex:0 1 150px;margin-left:auto}
+  .mini input{flex:0 1 140px;min-width:0}
   .mini.hide{display:none}
   .hide{display:none!important}
   /* iOS 사파리는 16px 미만 입력칸에 포커스하면 화면을 자동 확대한다. iOS에서만 입력칸을 16px로 강제 */
@@ -462,7 +463,7 @@ window.addEventListener("unhandledrejection", function(e){
       <button class="call-btn" id="btnDecline" onclick="window.__decline&&window.__decline()"><span class="disc decline">✕</span>거절</button>
       <button class="call-btn" id="btnAccept" onclick="window.__accept&&window.__accept()"><span class="disc accept">📞</span>받기</button>
     </div>
-    <div style="margin-top:14px;font-size:10px;letter-spacing:.1em;color:#3a3f4a">BUILD 09030037</div>
+    <div style="margin-top:14px;font-size:10px;letter-spacing:.1em;color:#3a3f4a">BUILD 09030041</div>
   </section>
   <div class="missed" id="missedToast">부재중 전화 · 60세의 나</div>
 
