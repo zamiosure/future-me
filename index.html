@@ -432,7 +432,7 @@ window.addEventListener("unhandledrejection", function(e){
       <button class="call-btn" id="btnDecline" onclick="window.__decline&&window.__decline()"><span class="disc decline">✕</span>거절</button>
       <button class="call-btn" id="btnAccept" onclick="window.__accept&&window.__accept()"><span class="disc accept">📞</span>받기</button>
     </div>
-    <div style="margin-top:14px;font-size:10px;letter-spacing:.1em;color:#3a3f4a">BUILD 08312356</div>
+    <div style="margin-top:14px;font-size:10px;letter-spacing:.1em;color:#3a3f4a">BUILD 09022026</div>
   </section>
   <div class="missed" id="missedToast">부재중 전화 · 60세의 나</div>
 
@@ -2084,7 +2084,7 @@ rsw.addEventListener("scroll", () => {
   function showTip(clientX){
     if(!SIM || !SIM.traj || !SIM.traj.length) return;
     const rect = cv.getBoundingClientRect();
-    const W = cv.width, padL = 66, padR = 20;
+    const W = cv.width, padL = 92, padR = 20;
     const cx = (clientX - rect.left) * (W / Math.max(1, rect.width));
     const a0 = SIM.traj[0].age, a1 = SIM.traj[SIM.traj.length - 1].age;
     let age = Math.round(a0 + (cx - padL) / (W - padL - padR) * (a1 - a0));
@@ -2284,7 +2284,7 @@ function drawDonut(cv, segs){
 /* 자산 흐름 차트 */
 function drawChart(cv, series, depleted){
   const ctx = cv.getContext("2d");
-  const W = cv.width, H = cv.height, padL = 66, padR = 20, padT = 26, padB = 42;
+  const W = cv.width, H = cv.height, padL = 92, padR = 20, padT = 26, padB = 42;
   ctx.clearRect(0,0,W,H);
   const all = series.flatMap(s => s.data.map(d => d.asset));
   const maxY = Math.max(...all, 1000) * 1.08;
@@ -2293,7 +2293,7 @@ function drawChart(cv, series, depleted){
   const x = a => padL + (a - ages[0]) / (ages[ages.length-1] - ages[0]) * (W - padL - padR);
   const y = v => padT + (maxY - v) / (maxY - minY) * (H - padT - padB);
   ctx.strokeStyle = "rgba(120,144,163,.4)"; ctx.lineWidth = 1;
-  ctx.fillStyle = "#8395A6"; ctx.font = "500 20px sans-serif"; ctx.textAlign = "right";
+  ctx.fillStyle = "#4A5C70"; ctx.font = "600 20px sans-serif"; ctx.textAlign = "right";
   [0, 0.5, 1].forEach(t => {
     const v = minY + (maxY - minY) * t, yy = y(v);
     ctx.beginPath(); ctx.moveTo(padL, yy); ctx.lineTo(W - padR, yy); ctx.stroke();
@@ -2344,9 +2344,11 @@ function drawChart(cv, series, depleted){
     ctx.beginPath(); ctx.arc(x(depleted), y(0), 7, 0, Math.PI*2);
     ctx.fillStyle = "#E06B5D"; ctx.fill();
     ctx.strokeStyle = "#FFFFFF"; ctx.lineWidth = 3; ctx.stroke();
-    ctx.fillStyle = "#E06B5D"; ctx.font = "700 21px sans-serif";
-    const tx = Math.min(x(depleted), W - 130);
-    ctx.fillText(depleted + "세, 잔고 바닥", tx, y(0) - 16);
+    ctx.fillStyle = "#C94A3C"; ctx.font = "700 21px sans-serif";
+    /* 라벨이 캔버스 밖으로 잘리지 않게 좌우를 죄고, 0선이 위쪽이면 선 아래에 그린다 */
+    const tx = Math.max(padL + 80, Math.min(x(depleted), W - 140));
+    const ty = y(0) - 16 < padT + 12 ? y(0) + 36 : y(0) - 16;
+    ctx.fillText(depleted + "세, 잔고 바닥", tx, ty);
   }
 }
 
@@ -3244,6 +3246,13 @@ $("btnPledge").addEventListener("click", () => {
     ]);
   }, 500);
 });
+
+/* 스크립트 완주 표식: 이게 안 붙어 있으면 위 어딘가에서 죽은 것 */
+try{
+  document.querySelectorAll(".build-stamp, [data-build]").forEach(el => { el.textContent += " ✓"; });
+  const bs = [...document.querySelectorAll("*")].find(el => el.children.length === 0 && /BUILD /.test(el.textContent || ""));
+  if(bs && !/✓/.test(bs.textContent)) bs.textContent += " ✓";
+}catch(e){}
 </script>
 </body>
 </html>
